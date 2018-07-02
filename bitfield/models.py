@@ -1,5 +1,7 @@
 from __future__ import absolute_import
 
+from copy import deepcopy
+
 import six
 
 from django.db.models import signals
@@ -32,6 +34,14 @@ class BitFieldFlags(object):
         if key not in self._flags:
             raise AttributeError
         return Bit(self._flags.index(key))
+
+    def __deepcopy__(self, memo):
+        cls = self.__class__
+        result = cls.__new__(cls)
+        memo[id(self)] = result
+        for k, v in self.__dict__.items():
+            setattr(result, k, deepcopy(v, memo))
+        return result
 
     def iteritems(self):
         for flag in self._flags:
