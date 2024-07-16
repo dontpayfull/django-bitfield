@@ -256,10 +256,11 @@ try:
 except ImproperlyConfigured:
     pass
 
-try:
-    from django.db.backends.postgresql.base import Database
-    Database.extensions.register_adapter(Bit, lambda x: Database.extensions.AsIs(int(x)))
-    Database.extensions.register_adapter(BitHandler, lambda x: Database.extensions.AsIs(int(x)))
-except ImproperlyConfigured:
-    pass
+# removed because it assumes we use psycopg2 (old version). psycopg 3+ does not have these extensions 
+# try:
+#     from django.db.backends.postgresql.base import Database
+#     Database.extensions.register_adapter(Bit, lambda x: Database.extensions.AsIs(int(x)))
+#     Database.extensions.register_adapter(BitHandler, lambda x: Database.extensions.AsIs(int(x)))
+# except ImproperlyConfigured:
+#     pass
 
